@@ -52,7 +52,7 @@ function Home() {
                                     setSearch(e.target.value);
                                     setError(null);
                                     if (e.target.value.length > 2) {
-                                        const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
+                                        const apiUrl = (import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000')).replace(/\/$/, '');
                                         console.log("Searching with API URL:", apiUrl);
                                         fetch(`${apiUrl}/api/places/search?query=${encodeURIComponent(e.target.value)}`)
                                             .then(res => {
