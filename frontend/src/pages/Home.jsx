@@ -5,14 +5,10 @@ import logo from '../assets/logo.png';
 
 function Home() {
     const [search, setSearch] = useState('');
+    const [results, setResults] = useState([]);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleSearch = (e) => {
-        e.preventDefault();
-        if (search.trim()) {
-            navigate(`/restaurant/${encodeURIComponent(search)}`);
-        }
-    };
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -45,22 +41,55 @@ function Home() {
                     <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
                         Discover safe places to eat with our AI-powered dairy-free assessments and community reviews.
                     </p>
-                    <div className="mt-10 max-w-xl">
-                        <form onSubmit={handleSearch} className="flex gap-2">
+                    <div className="mt-10 max-w-xl relative">
+                        <form onSubmit={(e) => e.preventDefault()} className="flex gap-2">
                             <input
                                 type="text"
                                 className="block w-full rounded-md border-0 px-4 py-3 bg-white text-gray-900 placeholder-gray-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                                 placeholder="Search for a restaurant (e.g. Joe's Pizza)"
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setError(null);
+                                    if (e.target.value.length > 2) {
+                                        fetch(`http://localhost:8000/api/places/search?query=${encodeURIComponent(e.target.value)}`)
+                                            .then(res => {
+                                                if (!res.ok) throw new Error(res.statusText);
+                                                return res.json();
+                                            })
+                                            .then(data => setResults(data.places || []))
+                                            .catch(err => {
+                                                console.error(err);
+                                                setError("Search failed. Check backend logs/API key.");
+                                                setResults([]);
+                                            });
+                                    } else {
+                                        setResults([]);
+                                    }
+                                }}
                             />
-                            <button
-                                type="submit"
-                                className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
-                                Search
-                            </button>
                         </form>
+                        {error && (
+                            <div className="absolute z-10 mt-1 w-full bg-red-50 text-red-700 p-2 rounded-md text-sm border border-red-200">
+                                {error}
+                            </div>
+                        )}
+                        {results.length > 0 && (
+                            <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                {results.map((place) => (
+                                    <li
+                                        key={place.id}
+                                        className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-600 hover:text-white text-gray-900"
+                                        onClick={() => navigate(`/restaurant/${place.id}`)}
+                                    >
+                                        <div className="flex flex-col">
+                                            <span className="font-medium truncate">{place.displayName.text}</span>
+                                            <span className="text-xs text-gray-500 truncate hover:text-indigo-200">{place.formattedAddress}</span>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </div>
             </div>

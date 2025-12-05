@@ -3,8 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 function RestaurantDetails() {
-    const { name } = useParams();
+    const { placeId } = useParams();
     const [loading, setLoading] = useState(true);
+    const [restaurant, setRestaurant] = useState(null);
     const [assessment, setAssessment] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [newReview, setNewReview] = useState({ user_name: '', rating: 5, review: '' });
@@ -14,11 +15,21 @@ function RestaurantDetails() {
         const fetchData = async () => {
             setLoading(true);
             try {
-                // Fetch Assessment
+                // 1. Fetch Restaurant Details (Get/Create in DB)
+                const resDetails = await fetch(`http://localhost:8000/api/restaurants/${placeId}`);
+                if (!resDetails.ok) throw new Error("Failed to fetch restaurant details");
+                const restaurantData = await resDetails.json();
+                setRestaurant(restaurantData);
+
+                // 2. Fetch Assessment
                 const assessRes = await fetch('http://localhost:8000/api/assess', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ restaurant_name: name })
+                    body: JSON.stringify({
+                        restaurant_name: restaurantData.name,
+                        google_place_id: placeId,
+                        website: restaurantData.website
+                    })
                 });
                 if (assessRes.ok) {
                     const data = await assessRes.json();
@@ -28,8 +39,8 @@ function RestaurantDetails() {
                     setAssessment({ score: 0, summary: "Could not assess.", dairyFreeOptions: [] });
                 }
 
-                // Fetch Reviews
-                const reviewsRes = await fetch(`http://localhost:8000/api/reviews?restaurant_name=${encodeURIComponent(name)}`);
+                // 3. Fetch Reviews
+                const reviewsRes = await fetch(`http://localhost:8000/api/reviews?restaurant_name=${encodeURIComponent(restaurantData.name)}`);
                 if (reviewsRes.ok) {
                     const data = await reviewsRes.json();
                     setReviews(data);
@@ -41,12 +52,14 @@ function RestaurantDetails() {
             }
         };
 
-        fetchData();
-    }, [name]);
+        if (placeId) {
+            fetchData();
+        }
+    }, [placeId]);
 
     const handleReviewSubmit = async (e) => {
         e.preventDefault();
-        if (!assessment?.id) {
+        if (!restaurant?.id) {
             alert("Cannot submit review: Restaurant ID not found.");
             return;
         }
@@ -56,13 +69,13 @@ function RestaurantDetails() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    restaurant_id: assessment.id,
+                    restaurant_id: restaurant.id,
                     ...newReview
                 })
             });
             if (res.ok) {
                 // Refresh reviews
-                const reviewsRes = await fetch(`http://localhost:8000/api/reviews?restaurant_name=${encodeURIComponent(name)}`);
+                const reviewsRes = await fetch(`http://localhost:8000/api/reviews?restaurant_name=${encodeURIComponent(restaurant.name)}`);
                 if (reviewsRes.ok) {
                     const data = await reviewsRes.json();
                     setReviews(data);
@@ -85,6 +98,15 @@ function RestaurantDetails() {
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
             </div>
         );
+    }
+
+    if (!restaurant) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+                <p className="text-xl text-gray-500">Restaurant not found.</p>
+                <Link to="/" className="text-indigo-600 hover:text-indigo-500 mt-4">&larr; Back to Search</Link>
+            </div>
+        )
     }
 
     return (
@@ -110,8 +132,13 @@ function RestaurantDetails() {
                     <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
                         <div className="px-4 py-5 sm:px-6">
                             <h3 className="text-2xl leading-6 font-medium text-gray-900">
-                                {decodeURIComponent(name)}
+                                {restaurant.name}
                             </h3>
+                            {restaurant.website && (
+                                <a href={restaurant.website} target="_blank" rel="noopener noreferrer" className="text-sm text-indigo-600 hover:underline">
+                                    Visit Website
+                                </a>
+                            )}
                             <p className="mt-1 max-w-2xl text-sm text-gray-500">
                                 Dairy-Free Assessment
                             </p>
