@@ -12,6 +12,10 @@ load_dotenv()
 
 app = FastAPI()
 
+@app.get("/api/health")
+async def health_check():
+    return {"status": "ok", "message": "Backend is running"}
+
 # CORS configuration
 origins = [
     "http://localhost:5173",

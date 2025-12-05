@@ -1,3 +1,7 @@
-from backend.main import app
+import sys
+import os
 
-# Vercel expects a variable named 'app' or 'handler'
+# Add the project root to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+from backend.main import app
