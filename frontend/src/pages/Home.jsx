@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '../assets/hero.png';
 import logo from '../assets/logo.png';
@@ -48,25 +48,11 @@ function Home() {
                                 className="block w-full rounded-md border-0 px-4 py-3 bg-white text-gray-900 placeholder-gray-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                                 placeholder="Search for a restaurant (e.g. Joe's Pizza)"
                                 value={search}
-                                onChange={(e) => {
-                                    setSearch(e.target.value);
-                                    setError(null);
-                                    if (e.target.value.length > 2) {
-                                        const apiUrl = (import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000')).replace(/\/$/, '');
-                                        console.log("Searching with API URL:", apiUrl);
-                                        fetch(`${apiUrl}/api/places/search?query=${encodeURIComponent(e.target.value)}`)
-                                            .then(res => {
-                                                if (!res.ok) throw new Error(res.statusText);
-                                                return res.json();
-                                            })
-                                            .then(data => setResults(data.places || []))
-                                            .catch(err => {
-                                                console.error(err);
-                                                setError("Search failed. Check backend logs/API key.");
-                                                setResults([]);
+                                setError("Search failed. Check backend logs/API key.");
+                            setResults([]);
                                             });
                                     } else {
-                                        setResults([]);
+                                setResults([]);
                                     }
                                 }}
                             />

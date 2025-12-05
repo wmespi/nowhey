@@ -78,7 +78,7 @@ def health_check():
 
 # Google Places Integration
 @app.get("/api/places/search")
-async def search_places(query: str):
+async def search_places(query: str, lat: float = None, lng: float = None):
     if not GOOGLE_MAPS_API_KEY:
         raise HTTPException(status_code=500, detail="Google Maps API Key not configured")
     
@@ -89,6 +89,13 @@ async def search_places(query: str):
         "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress"
     }
     payload = {"textQuery": query}
+    if lat is not None and lng is not None:
+        payload["locationBias"] = {
+            "circle": {
+                "center": {"latitude": lat, "longitude": lng},
+                "radius": 5000.0
+            }
+        }
     
     async with httpx.AsyncClient() as client:
         response = await client.post(url, json=payload, headers=headers)
