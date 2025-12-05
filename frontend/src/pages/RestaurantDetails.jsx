@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { useAuth } from '../context/AuthContext';
+import Login from '../components/Login';
 
 function RestaurantDetails() {
     const { placeId } = useParams();
@@ -8,8 +10,9 @@ function RestaurantDetails() {
     const [restaurant, setRestaurant] = useState(null);
     const [assessment, setAssessment] = useState(null);
     const [reviews, setReviews] = useState([]);
-    const [newReview, setNewReview] = useState({ user_name: '', rating: 5, review: '' });
+    const [newReview, setNewReview] = useState({ rating: 5, review: '' });
     const [submitting, setSubmitting] = useState(false);
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -72,6 +75,8 @@ function RestaurantDetails() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     restaurant_id: restaurant.id,
+                    user_id: user.id,
+                    user_name: user.user_metadata.full_name || 'Anonymous',
                     ...newReview
                 })
             });
@@ -82,7 +87,7 @@ function RestaurantDetails() {
                     const data = await reviewsRes.json();
                     setReviews(data);
                 }
-                setNewReview({ user_name: '', rating: 5, review: '' });
+                setNewReview({ rating: 5, review: '' });
             } else {
                 const err = await res.json();
                 alert(`Failed to submit review: ${err.detail || 'Unknown error'}`);
@@ -188,26 +193,34 @@ function RestaurantDetails() {
                             <h3 className="text-lg leading-6 font-medium text-gray-900">Add a Review</h3>
                         </div>
                         <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-                            <form onSubmit={handleReviewSubmit} className="space-y-4">
-                                <div>
-                                    <label htmlFor="user" className="block text-sm font-medium text-gray-700">Name</label>
-                                    <input type="text" id="user" required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        value={newReview.user_name} onChange={(e) => setNewReview({ ...newReview, user_name: e.target.value })} />
+                            {user ? (
+                                <form onSubmit={handleReviewSubmit} className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">Posting as</label>
+                                        <div className="mt-1 text-sm text-gray-900 font-medium">{user.user_metadata.full_name}</div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="rating" className="block text-sm font-medium text-gray-700">Rating (0-5)</label>
+                                        <input type="number" id="rating" min="0" max="5" step="0.5" required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            value={newReview.rating} onChange={(e) => setNewReview({ ...newReview, rating: parseFloat(e.target.value) })} />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="review" className="block text-sm font-medium text-gray-700">Review</label>
+                                        <textarea id="review" rows="3" required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            value={newReview.review} onChange={(e) => setNewReview({ ...newReview, review: e.target.value })}></textarea>
+                                    </div>
+                                    <button type="submit" disabled={submitting} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+                                        {submitting ? 'Submitting...' : 'Submit Review'}
+                                    </button>
+                                </form>
+                            ) : (
+                                <div className="text-center py-6">
+                                    <p className="text-gray-500 mb-4">Please sign in to leave a review.</p>
+                                    <div className="inline-block">
+                                        <Login />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label htmlFor="rating" className="block text-sm font-medium text-gray-700">Rating (0-5)</label>
-                                    <input type="number" id="rating" min="0" max="5" step="0.5" required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        value={newReview.rating} onChange={(e) => setNewReview({ ...newReview, rating: parseFloat(e.target.value) })} />
-                                </div>
-                                <div>
-                                    <label htmlFor="review" className="block text-sm font-medium text-gray-700">Review</label>
-                                    <textarea id="review" rows="3" required className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        value={newReview.review} onChange={(e) => setNewReview({ ...newReview, review: e.target.value })}></textarea>
-                                </div>
-                                <button type="submit" disabled={submitting} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
-                                    {submitting ? 'Submitting...' : 'Submit Review'}
-                                </button>
-                            </form>
+                            )}
                         </div>
                     </div>
 

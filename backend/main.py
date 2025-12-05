@@ -64,6 +64,7 @@ class AssessmentRequest(BaseModel):
 
 class ReviewRequest(BaseModel):
     restaurant_id: int
+    user_id: str
     user_name: str
     rating: float
     review: str
