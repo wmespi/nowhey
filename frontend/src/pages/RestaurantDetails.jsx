@@ -92,11 +92,11 @@ function RestaurantDetails() {
             {/* Header / Nav */}
             <nav className="bg-white shadow-sm mb-4">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-auto py-2">
-                        <div className="flex flex-col items-start justify-center w-min whitespace-nowrap">
-                            <Link to="/" className="flex flex-col items-start w-full">
+                    <div className="flex justify-between h-auto pt-2 pb-0">
+                        <div className="flex flex-col items-center justify-center w-min whitespace-nowrap">
+                            <Link to="/" className="flex flex-col items-center w-full">
                                 <span className="text-3xl font-bold leading-none tracking-tight relative z-10"><span className="text-indigo-900">no</span><span className="text-indigo-600">whey</span></span>
-                                <img src={logo} alt="Nowhey Logo" className="w-[110%] max-w-none h-auto object-contain -mt-4 -ml-1" />
+                                <img src={logo} alt="Nowhey Logo" className="w-[135%] max-w-none h-auto object-contain -mt-12 -mb-10" />
                             </Link>
                         </div>
                     </div>
