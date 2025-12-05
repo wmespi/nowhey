@@ -52,7 +52,8 @@ function Home() {
                                     setSearch(e.target.value);
                                     setError(null);
                                     if (e.target.value.length > 2) {
-                                        fetch(`http://localhost:8000/api/places/search?query=${encodeURIComponent(e.target.value)}`)
+                                        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                                        fetch(`${apiUrl}/api/places/search?query=${encodeURIComponent(e.target.value)}`)
                                             .then(res => {
                                                 if (!res.ok) throw new Error(res.statusText);
                                                 return res.json();

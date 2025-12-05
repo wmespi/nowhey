@@ -16,13 +16,14 @@ function RestaurantDetails() {
             setLoading(true);
             try {
                 // 1. Fetch Restaurant Details (Get/Create in DB)
-                const resDetails = await fetch(`http://localhost:8000/api/restaurants/${placeId}`);
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                const resDetails = await fetch(`${apiUrl}/api/restaurants/${placeId}`);
                 if (!resDetails.ok) throw new Error("Failed to fetch restaurant details");
                 const restaurantData = await resDetails.json();
                 setRestaurant(restaurantData);
 
                 // 2. Fetch Assessment
-                const assessRes = await fetch('http://localhost:8000/api/assess', {
+                const assessRes = await fetch(`${apiUrl}/api/assess`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -40,7 +41,7 @@ function RestaurantDetails() {
                 }
 
                 // 3. Fetch Reviews
-                const reviewsRes = await fetch(`http://localhost:8000/api/reviews?restaurant_name=${encodeURIComponent(restaurantData.name)}`);
+                const reviewsRes = await fetch(`${apiUrl}/api/reviews?restaurant_name=${encodeURIComponent(restaurantData.name)}`);
                 if (reviewsRes.ok) {
                     const data = await reviewsRes.json();
                     setReviews(data);
@@ -64,8 +65,9 @@ function RestaurantDetails() {
             return;
         }
         setSubmitting(true);
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
         try {
-            const res = await fetch('http://localhost:8000/api/reviews', {
+            const res = await fetch(`${apiUrl}/api/reviews`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -75,7 +77,7 @@ function RestaurantDetails() {
             });
             if (res.ok) {
                 // Refresh reviews
-                const reviewsRes = await fetch(`http://localhost:8000/api/reviews?restaurant_name=${encodeURIComponent(restaurant.name)}`);
+                const reviewsRes = await fetch(`${apiUrl}/api/reviews?restaurant_name=${encodeURIComponent(restaurant.name)}`);
                 if (reviewsRes.ok) {
                     const data = await reviewsRes.json();
                     setReviews(data);
