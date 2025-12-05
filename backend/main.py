@@ -8,7 +8,8 @@ from supabase import create_client, Client
 import httpx
 from bs4 import BeautifulSoup
 
-load_dotenv()
+# Load .env from root directory
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
 
 app = FastAPI()
 
