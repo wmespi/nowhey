@@ -56,7 +56,7 @@ function Home() {
                                         console.log("Searching with API URL:", apiUrl);
 
                                         let searchUrl = `${apiUrl}/api/places/search?query=${encodeURIComponent(e.target.value)}`;
-                                        if (location) {
+                                        if (location && location.lat && location.lng) {
                                             searchUrl += `&lat=${location.lat}&lng=${location.lng}`;
                                         }
 
