@@ -1,54 +1,82 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import heroImage from '../assets/hero.png';
+import logo from '../assets/logo.png';
 
 function Home() {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [search, setSearch] = useState('');
     const navigate = useNavigate();
 
     const handleSearch = (e) => {
         e.preventDefault();
-        if (searchQuery.trim()) {
-            navigate(`/restaurant/${encodeURIComponent(searchQuery)}`);
+        if (search.trim()) {
+            navigate(`/restaurant/${encodeURIComponent(search)}`);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4">
-            <div className="max-w-md w-full space-y-8">
-                <div className="text-center">
-                    <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl mb-2">
-                        no<span className="text-indigo-600">whey</span>
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                        Find dairy-free friendly restaurants near you.
-                    </p>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSearch}>
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label htmlFor="search" className="sr-only">Search for a restaurant</label>
-                            <input
-                                id="search"
-                                name="search"
-                                type="text"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Search for a restaurant (e.g. 'Joe's Pizza')"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+            {/* Header / Nav */}
+            <nav className="bg-white shadow-sm">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between h-auto py-2">
+                        <div className="flex flex-col items-start justify-center w-min whitespace-nowrap">
+                            <span className="text-3xl font-bold leading-none tracking-tight relative z-10"><span className="text-indigo-900">no</span><span className="text-indigo-600">whey</span></span>
+                            <img src={logo} alt="Nowhey Logo" className="w-[110%] max-w-none h-auto object-contain -mt-4 -ml-1" />
                         </div>
                     </div>
+                </div>
+            </nav>
 
-                    <div>
-                        <button
-                            type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Search
-                        </button>
+            {/* Hero Section */}
+            <div className="relative bg-indigo-800">
+                <div className="absolute inset-0">
+                    <img
+                        className="w-full h-full object-cover opacity-40"
+                        src={heroImage}
+                        alt="Dairy-free food spread"
+                    />
+                    <div className="absolute inset-0 bg-indigo-800 mix-blend-multiply" aria-hidden="true" />
+                </div>
+                <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+                    <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                        Find Dairy-Free Friendly Restaurants
+                    </h1>
+                    <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
+                        Discover safe places to eat with our AI-powered dairy-free assessments and community reviews.
+                    </p>
+                    <div className="mt-10 max-w-xl">
+                        <form onSubmit={handleSearch} className="flex gap-2">
+                            <input
+                                type="text"
+                                className="block w-full rounded-md border-0 px-4 py-3 bg-white text-gray-900 placeholder-gray-500 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                                placeholder="Search for a restaurant (e.g. Joe's Pizza)"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <button
+                                type="submit"
+                                className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            >
+                                Search
+                            </button>
+                        </form>
                     </div>
-                </form>
+                </div>
+            </div>
+
+            {/* Feature Section (Optional placeholder) */}
+            <div className="py-12 bg-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="lg:text-center">
+                        <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                            Eat with confidence.
+                        </p>
+                        <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
+                            Our AI analyzes restaurant menus and reviews to give you a dairy-free score you can trust.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );
