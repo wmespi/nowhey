@@ -118,7 +118,7 @@ function RestaurantDetails() {
                         <div className="flex flex-col items-center justify-center w-min whitespace-nowrap">
                             <Link to="/" className="flex flex-col items-center w-full">
                                 <span className="text-3xl font-bold leading-none tracking-tight relative z-10"><span className="text-indigo-900">no</span><span className="text-indigo-600">whey</span></span>
-                                <img src={logo} alt="Nowhey Logo" className="w-[135%] max-w-none h-auto object-contain -mt-12 -mb-10" />
+                                <img src={logo} alt="Nowhey Logo" className="w-[135%] max-w-none h-auto object-contain -mt-12" />
                             </Link>
                         </div>
                     </div>
