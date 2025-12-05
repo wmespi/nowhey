@@ -16,7 +16,7 @@ function RestaurantDetails() {
             setLoading(true);
             try {
                 // 1. Fetch Restaurant Details (Get/Create in DB)
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
                 const resDetails = await fetch(`${apiUrl}/api/restaurants/${placeId}`);
                 if (!resDetails.ok) throw new Error("Failed to fetch restaurant details");
                 const restaurantData = await resDetails.json();
@@ -65,7 +65,7 @@ function RestaurantDetails() {
             return;
         }
         setSubmitting(true);
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+        const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
         try {
             const res = await fetch(`${apiUrl}/api/reviews`, {
                 method: 'POST',
