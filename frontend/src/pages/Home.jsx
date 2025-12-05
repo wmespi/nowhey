@@ -7,8 +7,24 @@ function Home() {
     const [search, setSearch] = useState('');
     const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
+    const [location, setLocation] = useState(null);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    setLocation({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    });
+                },
+                (error) => {
+                    console.log("Geolocation permission denied or failed:", error);
+                }
+            );
+        }
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col">
