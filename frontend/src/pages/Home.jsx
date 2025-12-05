@@ -53,6 +53,7 @@ function Home() {
                                     setError(null);
                                     if (e.target.value.length > 2) {
                                         const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:8000');
+                                        console.log("Searching with API URL:", apiUrl);
                                         fetch(`${apiUrl}/api/places/search?query=${encodeURIComponent(e.target.value)}`)
                                             .then(res => {
                                                 if (!res.ok) throw new Error(res.statusText);
