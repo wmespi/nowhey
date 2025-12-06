@@ -41,7 +41,7 @@ function RestaurantDetails() {
                     setAssessment(data);
                 } else {
                     console.error("Assessment failed");
-                    setAssessment({ score: 0, summary: "Could not assess.", dairyFreeOptions: [] });
+                    setAssessment({ score: null, summary: "Could not assess.", dairyFreeOptions: [] });
                 }
 
                 // 3. Fetch Reviews

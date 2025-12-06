@@ -24,7 +24,7 @@ const ScoreBanner = ({ llmScore, userScore, reviewCount }) => {
         <img src={robotCow} alt="Robot Cow" className="w-12 h-12 object-contain" />
         <div className="flex flex-col items-start">
           <span className={`text-3xl font-black ${getScoreColor(llmScore, 10)}`}>
-            {llmScore ? `${Math.round(llmScore * 10)}%` : '--'}
+            {llmScore !== null && llmScore !== undefined ? `${Math.round(llmScore * 10)}%` : '--'}
           </span>
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">Dairy-Free</span>
         </div>
@@ -35,7 +35,7 @@ const ScoreBanner = ({ llmScore, userScore, reviewCount }) => {
         <img src={spilledMilk} alt="Spilled Milk" className="w-20 h-20 object-contain" />
         <div className="flex flex-col items-start">
           <span className={`text-3xl font-black ${getScoreColor(userScore, 5)}`}>
-            {userScore ? `${Math.round((userScore / 5) * 100)}%` : '--'}
+            {userScore !== null && userScore !== undefined ? `${Math.round((userScore / 5) * 100)}%` : '--'}
           </span>
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">User Score</span>
           <span className="text-[10px] text-indigo-600 font-medium hover:underline cursor-pointer">
