@@ -50,6 +50,16 @@ All branches will be created off `develop`.
 #### [MODIFY] [RestaurantDetails.jsx](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/frontend/src/pages/RestaurantDetails.jsx)
 - Display the restaurant's address (dependent on Backend Data Schema work).
 
+### Feature: Branding
+**Branch**: `feature/frontend-branding-favicon-og`
+#### [MODIFY] [index.html](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/frontend/index.html)
+- Update `<link rel="icon">` to use the Spilled Milk icon.
+- Add Open Graph meta tags (`og:image`, `og:title`, `og:description`) using the full Brand Logo.
+
+#### [NEW] [public/](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/frontend/public/)
+- Add `favicon.svg` (Spilled Milk).
+- Add `og-image.png` (Full Brand Logo).
+
 ---
 
 ## Execution Order

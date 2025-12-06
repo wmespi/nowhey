@@ -76,3 +76,4 @@
         - [ ] Assets: Robot Cow Icon (Branch: `feature/frontend-generate-robot-cow-icon`) <!-- id: 48 -->
         - [ ] UI: Score Banner (Branch: `feature/frontend-component-score-banner`) <!-- id: 49 -->
         - [ ] UI: Address Display (Branch: `feature/frontend-ui-display-address`) <!-- id: 58 -->
+        - [ ] Branding: Favicon & Link Preview (Branch: `feature/frontend-branding-favicon-og`) <!-- id: 59 -->
