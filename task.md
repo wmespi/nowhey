@@ -70,7 +70,7 @@
 - [ ] Phase 2: Refinements & Advanced Features <!-- id: 45 -->
     - [ ] **Backend Work** <!-- id: 56 -->
 
-        - [x] Search Refinement (Branch: `feature/backend-filter-google-places-food`) <!-- id: 46 -->
+        - [/] Search Refinement (Branch: `feature/backend-filter-google-places-food`) <!-- id: 46 -->
         - [ ] LLM Enhancements (Branch: `feature/backend-llm-prompt-scoring-update`) <!-- id: 51 -->
         - [ ] Data & Schema (Branch: `feature/backend-schema-add-address-column`) <!-- id: 54 -->
         - [ ] Infrastructure: Modularize Code (Branch: `feature/backend-infrastructure-modularization`) <!-- id: 60 -->
