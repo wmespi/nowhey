@@ -88,7 +88,7 @@ async def search_places(query: str, lat: float = None, lng: float = None):
     headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": GOOGLE_MAPS_API_KEY,
-        "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress"
+        "X-Goog-FieldMask": "places.id,places.displayName,places.formattedAddress,places.types"
     }
     payload = {"textQuery": query}
     if lat is not None and lng is not None:
@@ -103,7 +103,18 @@ async def search_places(query: str, lat: float = None, lng: float = None):
         response = await client.post(url, json=payload, headers=headers)
         if response.status_code != 200:
             raise HTTPException(status_code=response.status_code, detail="Failed to fetch from Google Places")
-        return response.json()
+        
+        data = response.json()
+        if "places" in data:
+            allowed_types = {'restaurant', 'cafe', 'bakery', 'food'}
+            filtered_places = []
+            for place in data["places"]:
+                place_types = set(place.get("types", []))
+                if not place_types.isdisjoint(allowed_types):
+                    filtered_places.append(place)
+            data["places"] = filtered_places
+            
+        return data
 
 @app.get("/api/restaurants/{place_id}")
 async def get_restaurant_details(place_id: str):
