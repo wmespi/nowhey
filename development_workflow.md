@@ -25,6 +25,13 @@ git checkout -b feature/my-new-feature
 
 ### 2. Make Changes & Verify Locally
 Code, build, and test locally.
+
+**Keep your branch updated:**
+If other features are merged into `develop` while you are working, pull them in:
+```bash
+git pull origin develop
+```
+
 ```bash
 # Code...
 npm run build
