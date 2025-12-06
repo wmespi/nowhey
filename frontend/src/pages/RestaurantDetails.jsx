@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useAuth } from '../context/AuthContext';
 import Login from '../components/Login';
+import ScoreBanner from '../components/ScoreBanner';
 
 function RestaurantDetails() {
     const { placeId } = useParams();
@@ -40,7 +41,7 @@ function RestaurantDetails() {
                     setAssessment(data);
                 } else {
                     console.error("Assessment failed");
-                    setAssessment({ score: 0, summary: "Could not assess.", dairyFreeOptions: [] });
+                    setAssessment({ score: null, summary: "Could not assess.", dairyFreeOptions: [] });
                 }
 
                 // 3. Fetch Reviews
@@ -136,33 +137,34 @@ function RestaurantDetails() {
                 <div className="max-w-3xl mx-auto">
                     <Link to="/" className="text-indigo-600 hover:text-indigo-500 mb-4 inline-block">&larr; Back to Search</Link>
 
+
+
                     <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
-                        <div className="px-4 py-5 sm:px-6">
-                            <h3 className="text-2xl leading-6 font-medium text-gray-900">
-                                {restaurant.name}
-                            </h3>
-                            {restaurant.website && (
-                                <a href={restaurant.website} target="_blank" rel="noopener noreferrer" className="text-sm text-indigo-600 hover:underline">
-                                    Visit Website
-                                </a>
+                        <div className="px-4 py-5 sm:px-6 flex justify-between items-start">
+                            <div>
+                                <h3 className="text-2xl leading-6 font-medium text-gray-900">
+                                    {restaurant.name}
+                                </h3>
+                                {restaurant.website && (
+                                    <a href={restaurant.website} target="_blank" rel="noopener noreferrer" className="text-sm text-indigo-600 hover:underline block mt-1">
+                                        Visit Website
+                                    </a>
+                                )}
+                                <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                                    Dairy-Free Assessment
+                                </p>
+                            </div>
+                            {restaurant && (
+                                <ScoreBanner
+                                    llmScore={assessment?.score}
+                                    userScore={reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : null}
+                                    reviewCount={reviews.length}
+                                />
                             )}
-                            <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                                Dairy-Free Assessment
-                            </p>
                         </div>
                         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
                             {assessment && (
                                 <dl className="sm:divide-y sm:divide-gray-200">
-                                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                        <dt className="text-sm font-medium text-gray-500">
-                                            Dairy-Free Score
-                                        </dt>
-                                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${assessment.score >= 7 ? 'bg-green-100 text-green-800' : assessment.score >= 4 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
-                                                {assessment.score}/10
-                                            </span>
-                                        </dd>
-                                    </div>
                                     <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                         <dt className="text-sm font-medium text-gray-500">
                                             Summary
