@@ -67,7 +67,7 @@ All branches will be created off `develop`.
 ### Feature: Score Banner
 **Branch**: `feature/frontend-component-score-banner`
 #### [NEW] [ScoreBanner.jsx](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/frontend/src/components/ScoreBanner.jsx)
-- Component to display LLM Score (Robot Cow) and User Score (Spilled Milk).
+- Component to display LLM Score (displayed next to Robot Cow icon) and User Score (displayed next to Spilled Milk icon).
 
 #### [MODIFY] [RestaurantDetails.jsx](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/frontend/src/pages/RestaurantDetails.jsx)
 - Import and place `ScoreBanner` at the top.
