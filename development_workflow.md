@@ -46,11 +46,18 @@ git push -u origin feature/my-new-feature
 ```
 
 ### 4. Merge to Develop (Staging)
-1.  **Switch to develop:** `git checkout develop`
-2.  **Pull latest:** `git pull origin develop`
-3.  **Merge feature:** `git merge feature/my-new-feature`
-4.  **Push:** `git push origin develop`
-5.  **WAIT**: Vercel will deploy the `develop` branch to a specific Preview URL.
+1.  **Sync Feature Branch:**
+    ```bash
+    # Ensure you have the latest develop changes in your feature branch first!
+    git checkout feature/my-new-feature
+    git pull origin develop
+    # Fix any conflicts here if they arise
+    ```
+2.  **Switch to develop:** `git checkout develop`
+3.  **Pull latest:** `git pull origin develop`
+4.  **Merge feature:** `git merge feature/my-new-feature`
+5.  **Push:** `git push origin develop`
+6.  **WAIT**: Vercel will deploy the `develop` branch to a specific Preview URL.
 
 ### 5. Test Staging (Crucial Step)
 1.  Open the Vercel Preview URL for the `develop` branch.
