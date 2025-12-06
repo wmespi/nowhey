@@ -58,10 +58,12 @@ git push -u origin feature/my-new-feature
 3.  If it fails here, fix it and push to `develop` again.
 
 ### 6. Release to Production
+**STOP:** Do not push directly to `main`.
 Once `develop` is verified and stable:
-1.  Create a **Pull Request** from `develop` to `main`.
-2.  **Merge it.**
-3.  Vercel updates the live site (Production Database).
+1.  Go to GitHub.
+2.  Create a **Pull Request** from `develop` to `main`.
+3.  **Review & Merge.**
+4.  Vercel updates the live site (Production Database).
 
 ### 7. Cleanup
 ```bash
