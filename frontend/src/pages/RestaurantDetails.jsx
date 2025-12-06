@@ -164,16 +164,6 @@ function RestaurantDetails() {
                                 <dl className="sm:divide-y sm:divide-gray-200">
                                     <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                         <dt className="text-sm font-medium text-gray-500">
-                                            Dairy-Free Score
-                                        </dt>
-                                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${assessment.score >= 7 ? 'bg-green-100 text-green-800' : assessment.score >= 4 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}`}>
-                                                {assessment.score}/10
-                                            </span>
-                                        </dd>
-                                    </div>
-                                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                        <dt className="text-sm font-medium text-gray-500">
                                             Summary
                                         </dt>
                                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
