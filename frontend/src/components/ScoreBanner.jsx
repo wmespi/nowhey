@@ -5,6 +5,7 @@ import spilledMilk from '../assets/logo.png'; // Using logo as the spilled milk 
 const ScoreBanner = ({ llmScore, userScore, reviewCount }) => {
   // Helper to determine color based on score (0-10 scale for LLM, 0-5 for User)
   const getScoreColor = (score, max) => {
+    if (score === null || score === undefined) return 'text-indigo-600';
     const percentage = score / max;
     if (percentage >= 0.7) return 'text-green-600';
     if (percentage >= 0.4) return 'text-yellow-600';
@@ -15,28 +16,29 @@ const ScoreBanner = ({ llmScore, userScore, reviewCount }) => {
     return score !== undefined && score !== null ? Number(score).toFixed(1) : '-';
   };
 
+  console.log("ScoreBanner rendering", { llmScore, userScore, reviewCount });
   return (
-    <div className="bg-gray-100 py-6 mb-6 flex items-center justify-center gap-12 sm:gap-24">
+    <div className="flex items-center gap-4">
       {/* LLM Score */}
-      <div className="flex items-center gap-4">
-        <img src={robotCow} alt="Robot Cow" className="w-16 h-16 object-contain" />
-        <div className="flex flex-col">
-          <span className={`text-4xl font-black ${getScoreColor(llmScore, 10)}`}>
+      <div className="flex items-center gap-3">
+        <img src={robotCow} alt="Robot Cow" className="w-12 h-12 object-contain" />
+        <div className="flex flex-col items-start">
+          <span className={`text-3xl font-black ${getScoreColor(llmScore, 10)}`}>
             {llmScore ? `${Math.round(llmScore * 10)}%` : '--'}
           </span>
-          <span className="text-sm font-bold text-gray-900 uppercase tracking-tight">Dairy-Free Score</span>
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">Dairy-Free</span>
         </div>
       </div>
 
       {/* User Score */}
-      <div className="flex items-center gap-4">
-        <img src={spilledMilk} alt="Spilled Milk" className="w-16 h-16 object-contain" />
-        <div className="flex flex-col">
-          <span className={`text-4xl font-black ${getScoreColor(userScore, 5)}`}>
+      <div className="flex items-center gap-3">
+        <img src={spilledMilk} alt="Spilled Milk" className="w-20 h-20 object-contain" />
+        <div className="flex flex-col items-start">
+          <span className={`text-3xl font-black ${getScoreColor(userScore, 5)}`}>
             {userScore ? `${Math.round((userScore / 5) * 100)}%` : '--'}
           </span>
-          <span className="text-sm font-bold text-gray-900 uppercase tracking-tight">User Score</span>
-          <span className="text-xs text-blue-600 font-medium hover:underline cursor-pointer">
+          <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">User Score</span>
+          <span className="text-[10px] text-indigo-600 font-medium hover:underline cursor-pointer">
             {reviewCount} Reviews
           </span>
         </div>

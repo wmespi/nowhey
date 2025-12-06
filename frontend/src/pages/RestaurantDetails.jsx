@@ -137,27 +137,30 @@ function RestaurantDetails() {
                 <div className="max-w-3xl mx-auto">
                     <Link to="/" className="text-indigo-600 hover:text-indigo-500 mb-4 inline-block">&larr; Back to Search</Link>
 
-                    {restaurant && (
-                        <ScoreBanner
-                            llmScore={assessment?.score}
-                            userScore={reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : null}
-                            reviewCount={reviews.length}
-                        />
-                    )}
+
 
                     <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
-                        <div className="px-4 py-5 sm:px-6">
-                            <h3 className="text-2xl leading-6 font-medium text-gray-900">
-                                {restaurant.name}
-                            </h3>
-                            {restaurant.website && (
-                                <a href={restaurant.website} target="_blank" rel="noopener noreferrer" className="text-sm text-indigo-600 hover:underline">
-                                    Visit Website
-                                </a>
+                        <div className="px-4 py-5 sm:px-6 flex justify-between items-start">
+                            <div>
+                                <h3 className="text-2xl leading-6 font-medium text-gray-900">
+                                    {restaurant.name}
+                                </h3>
+                                {restaurant.website && (
+                                    <a href={restaurant.website} target="_blank" rel="noopener noreferrer" className="text-sm text-indigo-600 hover:underline block mt-1">
+                                        Visit Website
+                                    </a>
+                                )}
+                                <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                                    Dairy-Free Assessment
+                                </p>
+                            </div>
+                            {restaurant && (
+                                <ScoreBanner
+                                    llmScore={assessment?.score}
+                                    userScore={reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : null}
+                                    reviewCount={reviews.length}
+                                />
                             )}
-                            <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                                Dairy-Free Assessment
-                            </p>
                         </div>
                         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
                             {assessment && (
