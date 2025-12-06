@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useAuth } from '../context/AuthContext';
 import Login from '../components/Login';
+import ScoreBanner from '../components/ScoreBanner';
 
 function RestaurantDetails() {
     const { placeId } = useParams();
@@ -135,6 +136,14 @@ function RestaurantDetails() {
             <div className="p-4">
                 <div className="max-w-3xl mx-auto">
                     <Link to="/" className="text-indigo-600 hover:text-indigo-500 mb-4 inline-block">&larr; Back to Search</Link>
+
+                    {restaurant && (
+                        <ScoreBanner
+                            llmScore={assessment?.score}
+                            userScore={reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length : null}
+                            reviewCount={reviews.length}
+                        />
+                    )}
 
                     <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-6">
                         <div className="px-4 py-5 sm:px-6">
