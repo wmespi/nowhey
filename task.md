@@ -69,9 +69,11 @@
 
 - [ ] Phase 2: Refinements & Advanced Features <!-- id: 45 -->
     - [ ] **Backend Work** <!-- id: 56 -->
-        - [ ] Search Refinement (Branch: `feature/backend-filter-google-places-food`) <!-- id: 46 -->
+
+        - [x] Search Refinement (Branch: `feature/backend-filter-google-places-food`) <!-- id: 46 -->
         - [ ] LLM Enhancements (Branch: `feature/backend-llm-prompt-scoring-update`) <!-- id: 51 -->
         - [ ] Data & Schema (Branch: `feature/backend-schema-add-address-column`) <!-- id: 54 -->
+        - [ ] Infrastructure: Modularize Code (Branch: `feature/backend-infrastructure-modularization`) <!-- id: 60 -->
     - [ ] **Frontend Work** <!-- id: 57 -->
         - [ ] Assets: Robot Cow Icon (Branch: `feature/frontend-generate-robot-cow-icon`) <!-- id: 48 -->
         - [ ] UI: Score Banner (Branch: `feature/frontend-component-score-banner`) <!-- id: 49 -->

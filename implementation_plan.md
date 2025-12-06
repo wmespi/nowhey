@@ -29,6 +29,33 @@ All branches will be created off `develop`.
 #### [MODIFY] [main.py](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/backend/main.py)
 - Update `get_restaurant` to fetch/store `formatted_address`.
 
+### Feature: Infrastructure - Modularize Code
+**Branch**: `feature/backend-infrastructure-modularization`
+#### [NEW] [backend/app/](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/backend/app/)
+- Create `app` directory structure:
+    - `__init__.py`
+    - `main.py` (Entry point)
+    - `routers/` (API endpoints)
+        - `places.py`
+        - `reviews.py`
+        - `assess.py`
+    - `services/` (Business logic)
+        - `google_maps.py`
+        - `gemini.py`
+        - `supabase.py`
+    - `models/` (Pydantic models)
+        - `schemas.py`
+
+#### [MODIFY] [backend/main.py](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/backend/main.py)
+- Refactor to use the new structure.
+- Eventually replace with `app/main.py` or keep as entry point importing from `app`.
+
+#### [NEW] [backend/tests/](file:///Users/williamespinoza/Documents/Coding%20Projects/nowhey/backend/tests/)
+- Create tests for each module:
+    - `test_places.py`
+    - `test_reviews.py`
+    - `test_assess.py`
+
 ---
 
 ## 2. Frontend Work
