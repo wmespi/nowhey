@@ -106,11 +106,19 @@ async def search_places(query: str, lat: float = None, lng: float = None):
         
         data = response.json()
         if "places" in data:
-            allowed_types = {'restaurant', 'cafe', 'bakery', 'food'}
+            allowed_types = {'restaurant', 'cafe', 'bakery'}
+            excluded_types = {'gas_station', 'convenience_store', 'gym', 'clothing_store', 'department_store', 'lodging'}
+            
             filtered_places = []
             for place in data["places"]:
                 place_types = set(place.get("types", []))
-                if not place_types.isdisjoint(allowed_types):
+                
+                # Must have at least one allowed type
+                has_allowed = not place_types.isdisjoint(allowed_types)
+                # Must NOT have any excluded type
+                has_excluded = not place_types.isdisjoint(excluded_types)
+                
+                if has_allowed and not has_excluded:
                     filtered_places.append(place)
             data["places"] = filtered_places
             
